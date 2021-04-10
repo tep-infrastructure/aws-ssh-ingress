@@ -24,7 +24,12 @@ build {
   sources = ["source.amazon-ebs.ssh-ingress"]
 
   provisioner "shell" {
-    inline = [ "sudo yum update -y" ]
+    inline = [
+      "sudo yum update -y",
+      "sudo yum install iptables-services -y",
+      "sudo systemctl enable iptables",
+      "sudo systemctl start iptables"
+      ]
   }
   provisioner "shell" {
     inline = [
@@ -34,7 +39,8 @@ build {
       "sudo iptables -I INPUT -s 0.0.0.0/0 -d 0.0.0.0/0 -p tcp --dport 8443 -m state --state New -j ACCEPT",
       "sudo iptables -A PREROUTING -t nat -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 8080",
       "sudo iptables -A PREROUTING -t nat -i eth0 -p tcp --dport 443 -j REDIRECT --to-port 8443",
-      "sudo /sbin/service iptables save"
+      "echo iptables",
+      "sudo service iptables save"
     ]
   }
   provisioner "shell" {
