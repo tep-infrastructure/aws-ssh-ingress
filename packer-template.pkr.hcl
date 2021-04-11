@@ -42,4 +42,10 @@ build {
       "sudo service iptables save"
     ]
   }
+  provisioner "shell" {
+    inline = [
+      "echo 'GatewayPorts yes' | sudo tee -a /etc/ssh/sshd_config",
+      "sudo systemctl restart sshd"
+    ]
+  }
 }
