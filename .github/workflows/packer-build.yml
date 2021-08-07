@@ -8,6 +8,8 @@ jobs:
   packer_build:
     runs-on: ubuntu-latest
     steps:
+      - name: Set short hash
+        run: echo "GIT_SHA_SHORT=$(echo $GITHUB_SHA | cut -c 1-6)" >> $GITHUB_ENV
       - uses: actions/checkout@v1
       - name: Packer build
         uses: RichTeaMan/packer-build-action@v1.2
@@ -19,4 +21,4 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_DEFAULT_REGION: eu-west-2
-
+          PKR_VAR_image_name: "ssh-ingress-${{ env.GIT_SHA_SHORT }}"
