@@ -24,10 +24,12 @@ build {
   provisioner "shell" {
     inline = [
       "sudo yum update -y",
-      "sudo yum install iptables-services -y",
+      "sudo yum install iptables-services yum-cron -y",
       "sudo systemctl enable iptables",
-      "sudo systemctl start iptables"
-      ]
+      "sudo systemctl start iptables",
+      "sudo systemctl enable yum-cron",
+      "sudo systemctl start yum-cron"
+    ]
   }
   provisioner "shell" {
     inline = [
