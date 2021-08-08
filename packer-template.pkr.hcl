@@ -10,6 +10,9 @@ source "amazon-ebs" "ssh-ingress" {
   instance_type = "t2.micro"
   source_ami    = "ami-0fbec3e0504ee1970" # amzn2-ami-hvm-2.0.20210326.0-x86_64-gp2
   ssh_username = "ec2-user"
+  tags = {
+    created-date = "{{ isotime }}"
+  }
 }
 
 # a build block invokes sources and runs provisioning steps on them.
